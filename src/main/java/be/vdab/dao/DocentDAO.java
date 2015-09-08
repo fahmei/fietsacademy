@@ -25,10 +25,8 @@ public class DocentDAO extends AbstractDAO {
 	}
 
 	public List<Docent> findByWeddeBetween(BigDecimal van, BigDecimal tot, int vanafRij, int aantalRijen) {
-		return getEntityManager()
-				.createNamedQuery("Docent.findByWeddeBetween", Docent.class)
-				.setParameter("van", van).setParameter("tot", tot).setFirstResult(vanafRij).setMaxResults(aantalRijen)
-				.getResultList();
+		return getEntityManager().createNamedQuery("Docent.findByWeddeBetween", Docent.class).setParameter("van", van)
+				.setParameter("tot", tot).setFirstResult(vanafRij).setMaxResults(aantalRijen).getResultList();
 	}
 
 	public List<VoornaamEnId> findVoornamen() {
@@ -43,9 +41,13 @@ public class DocentDAO extends AbstractDAO {
 	}
 
 	public List<AantalDocentenPerWedde> findAantalDocentenPerWedde() {
-		return getEntityManager()
-				.createQuery("select new be.vdab.valueobjects.AantalDocentenPerWedde(d.wedde,count(d)) from Docent d group by d.wedde", AantalDocentenPerWedde.class)
-				.getResultList();
+		return getEntityManager().createQuery(
+				"select new be.vdab.valueobjects.AantalDocentenPerWedde(d.wedde,count(d)) from Docent d group by d.wedde",
+				AantalDocentenPerWedde.class).getResultList();
+	}
+
+	public void algemeneOpslag(BigDecimal factor) {
+		getEntityManager().createNamedQuery("Docent.algemeneOpslag").setParameter("factor", factor).executeUpdate();
 	}
 
 }
