@@ -9,7 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-@Entity
+@Entity 
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "cursussen")
 public abstract class Cursus implements Serializable {
