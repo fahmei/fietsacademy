@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -17,6 +18,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -49,7 +51,8 @@ public class Docent implements Serializable {
 	@JoinColumn(name = "campusid")
 	private Campus campus;
 
-	@ManyToMany(mappedBy = "docenten")
+	@ManyToMany
+	@JoinTable(name = "docentenverantwoordelijkheden", joinColumns = @JoinColumn(name = "docentId") , inverseJoinColumns = @JoinColumn(name = "verantwoordelijkheidId") )
 	private Set<Verantwoordelijkheid> verantwoordelijkheden;
 
 	// CONSTRUCTORS
@@ -60,6 +63,7 @@ public class Docent implements Serializable {
 		setGeslacht(geslacht);
 		setRijksRegisterNr(rijksRegisterNr);
 		bijnamen = new HashSet<>();
+		verantwoordelijkheden = new LinkedHashSet<>();
 	}
 
 	protected Docent() {

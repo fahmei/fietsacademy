@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -22,8 +20,7 @@ public class Verantwoordelijkheid implements Serializable {
 	private long id; // je maakt zelf een getter
 	private String naam; // je maakt zelf een getter
 
-	@ManyToMany
-	@JoinTable(name = "docentenverantwoordelijkheden", joinColumns = @JoinColumn(name = "verantwoordelijkheidid") , inverseJoinColumns = @JoinColumn(name = "docentid") )
+	@ManyToMany(mappedBy="verantwoordelijkheden")
 	private Set<Docent> docenten;
 
 	// GETTERS
