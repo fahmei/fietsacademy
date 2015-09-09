@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -36,6 +37,10 @@ public class Campus implements Serializable {
 	@OrderBy("fax")
 	private Set<TelefoonNr> telefoonNrs;
 
+	@OneToMany(mappedBy = "campus")
+	@OrderBy("voornaam, familienaam")
+	private Set<Docent> docenten;
+
 	// CONSTRUCTORS
 	protected Campus() {
 	}
@@ -44,6 +49,7 @@ public class Campus implements Serializable {
 		setNaam(naam);
 		setAdres(adres);
 		telefoonNrs = new LinkedHashSet<>();
+		docenten = new LinkedHashSet<>();
 	}
 
 	// GETTERS
@@ -61,6 +67,10 @@ public class Campus implements Serializable {
 
 	public Set<TelefoonNr> getTelefoonNrs() {
 		return Collections.unmodifiableSet(telefoonNrs);
+	}
+
+	public Set<Docent> getDocenten() {
+		return Collections.unmodifiableSet(docenten);
 	}
 
 	// SETTERS
@@ -83,4 +93,21 @@ public class Campus implements Serializable {
 	public void removeTelefoonNr(TelefoonNr telefoonNr) {
 		telefoonNrs.remove(telefoonNr);
 	}
+
+	public void addDocent(Docent docent) {
+		docenten.add(docent);
+		if (docent.getCampus() != this) { // als de andere kant nog niet
+											// bijgewerkt is
+			docent.setCampus(this); // werk je de andere kant bij
+		}
+	}
+
+	public void removeDocent(Docent docent) {
+		docenten.remove(docent);
+		if (docent.getCampus() == this) { // als de andere kant nog niet
+											// bijgewerkt is
+			docent.setCampus(null); // werk je de andere kant bij
+		}
+	}
+
 }
