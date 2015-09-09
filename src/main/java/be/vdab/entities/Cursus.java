@@ -9,13 +9,12 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-@Entity 
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "cursussen")
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Cursus implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue
 	private long id;
 	private String naam;
 
