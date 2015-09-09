@@ -3,24 +3,28 @@ package be.vdab.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import be.vdab.enums.Geslacht;
-
 
 @Entity
 @Table(name = "docenten")
 public class Docent implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
 	@Id
 	@GeneratedValue
 	private long id;
@@ -33,6 +37,11 @@ public class Docent implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Geslacht geslacht;
 
+	@ElementCollection
+	@CollectionTable(name = "docentenbijnamen", joinColumns = @JoinColumn(name = "docentid") )
+	@Column(name = "Bijnaam")
+	private Set<String> bijnamen;
+
 	// CONSTRUCTORS
 	public Docent(String voornaam, String familienaam, BigDecimal wedde, Geslacht geslacht, long rijksRegisterNr) {
 		setVoornaam(voornaam);
@@ -40,6 +49,7 @@ public class Docent implements Serializable {
 		setWedde(wedde);
 		setGeslacht(geslacht);
 		setRijksRegisterNr(rijksRegisterNr);
+		bijnamen = new HashSet<>();
 	}
 
 	protected Docent() {
@@ -78,6 +88,14 @@ public class Docent implements Serializable {
 		this.rijksRegisterNr = rijksRegisterNr;
 	}
 
+	public void addBijnaam(String bijnaam) {
+		bijnamen.add(bijnaam);
+	}
+
+	public void removeBijnaam(String bijnaam) {
+		bijnamen.remove(bijnaam);
+	}
+
 	// GETTERS
 	public String getNaam() {
 		return voornaam + ' ' + familienaam;
@@ -105,6 +123,10 @@ public class Docent implements Serializable {
 
 	public Geslacht getGeslacht() {
 		return geslacht;
+	}
+
+	public Set<String> getBijnamen() {
+		return Collections.unmodifiableSet(bijnamen);
 	}
 
 	// EIGEN METHODS
