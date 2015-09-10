@@ -24,6 +24,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import be.vdab.enums.Geslacht;
 
@@ -62,6 +63,11 @@ public class Docent implements Serializable {
 	@JoinTable(name = "docentenverantwoordelijkheden", joinColumns = @JoinColumn(name = "docentId") , inverseJoinColumns = @JoinColumn(name = "verantwoordelijkheidId") )
 	private Set<Verantwoordelijkheid> verantwoordelijkheden;
 
+	@Version
+	private long versie;
+	
+	
+	
 	// CONSTRUCTORS
 	public Docent(String voornaam, String familienaam, BigDecimal wedde, Geslacht geslacht, long rijksRegisterNr) {
 		setVoornaam(voornaam);

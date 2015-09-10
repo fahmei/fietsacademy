@@ -32,9 +32,11 @@ public class OpslagServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		Map<String, String> fouten = new HashMap<>();
 		try {
 			BigDecimal percentage = new BigDecimal(request.getParameter("percentage"));
+			
 			if (percentage.compareTo(BigDecimal.ZERO) <= 0) {
 				fouten.put("percentage", " tik een positief getal");
 			} else {
@@ -43,6 +45,7 @@ public class OpslagServlet extends HttpServlet {
 				response.sendRedirect(
 						response.encodeRedirectURL(String.format(REDIRECT_URL, request.getContextPath(), id)));
 			}
+			
 		} catch (NumberFormatException ex) {
 			fouten.put("percentage", "tik een positief getal");
 		}
