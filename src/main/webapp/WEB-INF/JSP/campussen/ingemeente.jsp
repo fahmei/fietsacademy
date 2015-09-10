@@ -37,6 +37,10 @@ ${empty param.gemeente ? "een gemeente" : param.gemeente}'></v:head>
 						<dd>${telefoonNr.nummer}${telefoonNr.opmerking}</dd>
 					</c:forEach>
 				</dl>
+				
+				<c:if test='${not empty campus.manager}'>
+						Manager: ${campus.manager.voornaam} ${campus.manager.familienaam}
+				</c:if>
 			</c:forEach>
 		</ul>
 	</c:if>

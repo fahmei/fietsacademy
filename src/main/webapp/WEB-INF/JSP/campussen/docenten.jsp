@@ -9,9 +9,9 @@
 </head>
 <body>
 	<v:menu />
-	
+
 	<h1>Docenten per campus</h1>
-	
+
 	<ul class='zonderbolletjes'>
 		<c:forEach items='${campussen}' var='campus'>
 			<c:url value='' var='url'>
@@ -20,16 +20,23 @@
 			<li><a href='${url}'>${campus.naam}</a></li>
 		</c:forEach>
 	</ul>
-	
+
 	<c:if test='${not empty campus}'>
+	
 		<h2>${campus.naam}(${campus.adres.gemeente})</h2>
+		
+		<c:url value='' var='bestBetaaldeUrl'>
+			<c:param name='id' value='${campus.id}' />
+			<c:param name='bestbetaalde' value='true' />
+		</c:url>
+		<a href='${bestBetaaldeUrl}'>Best betaalde</a>
+		
 		<dl>
-			<c:forEach items='${campus.docenten}' var='docent'>
+			<c:forEach items='${empty param.bestbetaalde ? campus.docenten : docenten}' var='docent'>
 				<dt>${docent.naam}</dt>
 				<dd>
 					&euro;
-					<fmt:formatNumber value='${docent.wedde}' maxFractionDigits='2'
-						minFractionDigits='2' />
+					<fmt:formatNumber value='${docent.wedde}' maxFractionDigits='2'	minFractionDigits='2' />
 				</dd>
 			</c:forEach>
 		</dl>
